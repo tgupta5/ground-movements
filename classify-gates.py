@@ -13,13 +13,13 @@ import json
 Help United optimize aircraft gating at SFO Airport. 
 This application will first classify all of the United-accessible gates
 based on allowable aircraft types and then develop optimization algorithm
-that reflects bank and lull periods.
+that reflects bank and trough periods.
 
 '''
 ##-----------------------------------------------------------------------------
 ##                            Source tables                                  ##
 ##-----------------------------------------------------------------------------
-##      Using aero API's GET /flights/{ident}
+##   Using AeroAPI's GET /flights/{ident}; saving example json wo using credits
 ##
 ##
 ##----------------------------------------------------------------------------- 
@@ -31,8 +31,9 @@ that reflects bank and lull periods.
 ##-----------------------------------------------------------------------------
 ##                             CHANGE LOG                                    ##
 ##-----------------------------------------------------------------------------
-## DATE | FIRST NAME | LAST NAME      |CHANGE MADE
-## 12/15                Gupta           init
+## DATE             | NAME    |CHANGE MADE
+## 12/15 7:30p PT     Gupta    Added json and dict tracking aircraft type by 
+##                               gate
 ##
 ###############################################################################
 
@@ -73,41 +74,44 @@ structure is:
         "gate_destination"
 '''
 
-for flight_movement_list in all_sfo_flights:  ## "arrivals", "departures", "scheduled arrivals"...
-
-    for arr_or_departure in flight_movement_list:
+for movement_type in all_sfo_flights:  ## "arrivals", "departures", "scheduled arrivals"...
+    
     ## First get the gate and aircraft type
-        if arr_or_departure == 'arrivals':  ## arriving into SFO
-            curr_sfo_gate = flight_movement_list['arrivals']['gate_destination']
-        elif arr_or_departure == 'departures':  ## departing from SFO
-            curr_sfo_gate = flight_movement_list['departures']['gate_origin']
-        else:
-            continue  ## only want actual arrivals and departures, not links or scheduled ish
-
-        curr_aircraft = flight_movement_list["aircraft_type"].strip()
+    if movement_type == 'arrivals':  ## arriving into SFO
+        for arriving_flight in all_sfo_flights['arrivals']:
+            curr_sfo_gate = arriving_flight['gate_destination']
+    
+    elif movement_type == 'departures':  ## departing from SFO
+        for departing_flight in all_sfo_flights['departures']:
+            curr_sfo_gate = departing_flight['gate_origin']
         
+    else:
+        continue  ## only want actual arrivals and departures, not links or scheduled ish
 
-        '''
-        if gate (G3) exists,
-            if aircraft type (B737) exists at G3:
-                increment that aircraft's appearance ctr
-            else:
-                add that aircraft type with a ct of 1
+    curr_aircraft = all_sfo_flights[movement_type]["aircraft_type"].strip()
+    
+
+    '''
+    if gate (G3) exists,
+        if aircraft type (B737) exists at G3:
+            increment that aircraft's appearance ctr
         else:
-            add that gate
+            add that aircraft type with a ct of 1
+    else:
+        add that gate
 
-        ''' 
-        if curr_sfo_gate in gate_inventory_dict:
-            aircraft_at_gate_dict = gate_inventory_dict[curr_sfo_gate]
+    ''' 
+    if curr_sfo_gate in gate_inventory_dict:
+        aircraft_at_gate_dict = gate_inventory_dict[curr_sfo_gate]
 
-            if str(curr_aircraft) in aircraft_at_gate_dict:     
-                    aircraft_at_gate_dict[str(curr_aircraft)] += 1
-            
-            else:  ## aircraft type not visited this gate yet
-                    aircraft_at_gate_dict[str(curr_aircraft)] = 1
+        if str(curr_aircraft) in aircraft_at_gate_dict:     
+                aircraft_at_gate_dict[str(curr_aircraft)] += 1
+        
+        else:  ## aircraft type not visited this gate yet
+                aircraft_at_gate_dict[str(curr_aircraft)] = 1
 
-        else:  ## gate not yet in this dict
-                gate_inventory_dict[curr_sfo_gate] = {str(curr_aircraft): 1}
+    else:  ## gate not yet in this dict
+            gate_inventory_dict[curr_sfo_gate] = {str(curr_aircraft): 1}
 
     # gate_inventory_dict.setdefault(curr_gate, set()).add(curr_aircraft)
 
