@@ -14,3 +14,5 @@ From there, the algorithm will examine historical turn time patterns based on sc
 to begin understanding the gating patterns.
 
 A series of charts will also capture gate availability by aircraft type.
+
+![United SFO Terminal Map](https://github.com/[tgupta5]/[ground-movements]/blob/[master]/united_terminal_diagram.png?raw=true)
