@@ -15,4 +15,4 @@ to begin understanding the gating patterns.
 
 A series of charts will also capture gate availability by aircraft type.
 
-![United SFO Terminal Map](https://github.com/tgupta5/ground-movements/blob/master/united_terminal_diagram.png?raw=true)
+![United SFO Terminal Map](https://github.com/tgupta5/ground-movements/blob/master/references/united_terminal_diagram.PNG?raw=true)
