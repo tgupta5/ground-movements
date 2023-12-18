@@ -1,71 +1,71 @@
-G9:
-    B772: 1
-
-G11:
-    B739: 1
-
-G5:
-    B77W: 1
-    B772: 1
-
-G1:
-    B772: 1
+E11:
+    Boeing 737-800: 1
 
 E12:
-    B39M: 1
-    B738: 1
-
-G2:
-    B77W: 1
-
-E11:
-    B738: 1
-
-F21:
-    B38M: 1
-    B752: 1
-
-E4:
-    B738: 2
-
-E9:
-    B738: 2
-
-F20:
-    B738: 1
-
-E5:
-    A319: 1
-    A320: 1
-
-E7:
-    B39M: 1
-
-E8:
-    B738: 1
-    B39M: 1
+    Boeing 737 MAX 9: 1
+    Boeing 737-800: 1
 
 E13:
-    B738: 2
+    Boeing 737-800: 2
 
-F16:
-    B753: 1
+E4:
+    Boeing 737-800: 2
 
-F12:
-    B753: 1
+E5:
+    Airbus A319: 1
+    Airbus A320: 1
+
+E7:
+    Boeing 737 MAX 9: 1
+
+E8:
+    Boeing 737 MAX 9: 1
+    Boeing 737-800: 1
+
+E9:
+    Boeing 737-800: 2
 
 F1:
-    A319: 1
+    Airbus A319: 1
 
-F3:
-    A320: 1
-
-F4:
-    A319: 1
+F12:
+    Boeing 757-300: 1
 
 F14:
-    B753: 1
+    Boeing 757-300: 1
 
 F15:
-    B772: 1
+    Boeing 777-200: 1
+
+F16:
+    Boeing 757-300: 1
+
+F20:
+    Boeing 737-800: 1
+
+F21:
+    Boeing 737 MAX 8: 1
+    Boeing 757-200: 1
+
+F3:
+    Airbus A320: 1
+
+F4:
+    Airbus A319: 1
+
+G1:
+    Boeing 777-200: 1
+
+G11:
+    Boeing 737-900: 1
+
+G2:
+    Boeing 777-300ER: 1
+
+G5:
+    Boeing 777-200: 1
+    Boeing 777-300ER: 1
+
+G9:
+    Boeing 777-200: 1
 

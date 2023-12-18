@@ -64,7 +64,7 @@ gate_inventory_dict = {}
 
 
 ###############################################################################
-##                          Step 3: Prep to output to file                   ##
+##                 Step 3: Sort + Expand Aircraft Type + Output              ##
 ###############################################################################
 
 def augment_output_gate_inventory():
@@ -80,19 +80,37 @@ def augment_output_gate_inventory():
     sorted_gate_inventory_dict = {gate: dict(sorted(gate_inventory_dict[gate].items())) for gate in sorted_outer_keys}
 
 
-    # # merge in the full name of aircraft type
-    # # FAA_designator *Boeing B767-200* Model_FAA *Boeing B767-200*
-    # aircraft_lookup_path = 'data/lookup/aircraft_type_lookup.csv'
-    # aircraft_lookup_dict = {}
-    # with open(aircraft_lookup_path, 'r', newline = '') as file:
-    #     reader = csv.reader(aircraft_lookup_path)
-    #     for row in reader:
-    #         print(row)
-    #         aircraft_shortname = row[1]
-    #         aircraft_full = row[3]
-    #         aircraft_lookup_dict[aircraft_shortname] = aircraft_full
-    
+    # merge in the full name of aircraft type
+    path_to_lookup = 'data/lookup/aircraft_type_lookup.csv'
+    aircraft_lookup_df = pd.read_csv(path_to_lookup)
 
+    # FAA_Designator *Boeing B767-200* Model_FAA *Boeing B767-200*
+    aircraft_lookup_dict = {}
+    for idx,curr_aircraft in aircraft_lookup_df.iterrows():
+        key = curr_aircraft['FAA_Designator']
+        value = curr_aircraft['Model_FAA']
+        aircraft_lookup_dict[key] = value
+
+    ## Apply this new lookup to expand aircraft types in SFO dictionary
+    ## New gate inventory dict will have {{G18: {Boeing B757-200,2}, ...}}
+    expanded_gate_inventory_dict = {}
+    for gate, aircraft_appearances in sorted_gate_inventory_dict.items():
+
+        # temp store nested {aircraft:freq}
+        expanded_aircraft_appearances = {}
+        for curr_aircraft_type, freq in aircraft_appearances.items():
+            full_aircraft_name = aircraft_lookup_dict[curr_aircraft_type]
+
+            # if we already have that aircraft type at this gate
+            if aircraft_lookup_dict.get(curr_aircraft_type):  
+                expanded_aircraft_appearances[full_aircraft_name] = freq
+            
+            # if we don't, then on existing this for-loop it will get added
+
+        expanded_gate_inventory_dict[gate] = expanded_aircraft_appearances
+
+    # explicitly delete old gate inventory
+    # del gate_inventory_dict, sorted_gate_inventory_dict, aircraft_lookup_df
 
     # output df to excel or throw an error
     try:
@@ -103,7 +121,7 @@ def augment_output_gate_inventory():
         # Open the text file in write mode
         with open(output_file_path, 'w') as file:
             # Loop through each key-value pair in the nested dictionary
-            for key, inner_dict in gate_inventory_dict.items():
+            for key, inner_dict in expanded_gate_inventory_dict.items():
                 file.write(f"{key}:\n")
                 
                 # Loop through each item in the inner dictionary and write it to the file
