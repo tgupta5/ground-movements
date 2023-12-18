@@ -17,5 +17,5 @@ From there, the algorithm will examine historical turn time patterns based on sc
 *Caption: United's diagram of SFO terminals*
 
 ### United SFO T3, T2
-![United SFO T3, T2](https://github.com/tgupta5/ground-movements/blob/master/references/sfo_ground.PNG)
+![United SFO T3, T2](https://github.com/tgupta5/ground-movements/blob/master/references/sfo_ground.png)
 *Caption: Google Maps' overview of United terminals T3 and T2 at SFO*
